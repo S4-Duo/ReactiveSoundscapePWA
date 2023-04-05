@@ -3,7 +3,7 @@
   "short_name": "PPWA",
   "theme_color": "#008eff",
   "background_color": "#000000",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
