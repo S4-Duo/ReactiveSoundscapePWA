@@ -20,6 +20,16 @@ export default function Homepage(){
     }
 
     useEffect(() => {
+        if (facing == "up"){
+            console.log("value changed to up")
+            soundManager.playSound("pickup")
+        }else if (facing == "down") {
+            console.log("value changed to down")
+            soundManager.playSound("putdown")
+        }
+    }, [facing])
+
+    useEffect(() => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
