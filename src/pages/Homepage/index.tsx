@@ -12,12 +12,7 @@ export default function Homepage(){
     const [gamma, setGamma] = useState<any>()
     const [alpha, setAlpha] = useState<any>()
     const [facing, setFacing] = useState<string>()
-    function handleMotionEvent(event: DeviceOrientationEvent) {
-        setBeta(event.beta)
-        setGamma(event.gamma)
-        setAlpha(event.alpha)
-        setFacing(motionManager.getDevicePosition(event.alpha!, event.beta!, event.gamma!))
-    }
+
 
     useEffect(() => {
         if (facing == "up"){
@@ -44,6 +39,13 @@ export default function Homepage(){
             window.addEventListener("deviceorientation", handleMotionEvent);
         }
     })
+
+    function handleMotionEvent(event: DeviceOrientationEvent) {
+        setBeta(event.beta)
+        setGamma(event.gamma)
+        setAlpha(event.alpha)
+        setFacing(motionManager.getDevicePosition(event.alpha!, event.beta!, event.gamma!))
+    }
 
     /**
      * Ask for permission to the user
