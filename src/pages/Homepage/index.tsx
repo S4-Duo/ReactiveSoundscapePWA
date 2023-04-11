@@ -20,11 +20,11 @@ export default function Homepage() {
     const [facing, setFacing] = useState<string>()
 
     useEffect(() => {
-        if (facing == "up"){
+        if (facing == "up") {
             console.log("value changed to up")
             setSound("/sounds/putdown.mp3")
             pickup()
-        }else if (facing == "down") {
+        } else if (facing == "down") {
             console.log("value changed to down")
             setSound("/sounds/putdown.mp3")
             putDown()
@@ -32,24 +32,12 @@ export default function Homepage() {
     }, [facing])
 
     useEffect(() => {
-        window.addEventListener('mousedown', (event) => {
-            if (facing == "up"){
-                setSound("/sounds/putdown.mp3")
-                pickup()
-            }else if (facing == "down") {
-                setSound("/sounds/putdown.mp3")
-                putDown()
-            }
-        });
-    })
-
-    useEffect(() => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         window.addEventListener("deviceorientation", handleMotionEvent);
-                    }else {
+                    } else {
                         window.addEventListener("deviceorientation", handleMotionEvent);
                     }
                 })
@@ -88,6 +76,16 @@ export default function Homepage() {
             <h2>{alpha}</h2>
             <h2>{facing}</h2>
             <button onClick={askPermission}>Grant Permission</button>
+            <button onClick={() => {
+                if (facing == "up") {
+                    setSound("/sounds/putdown.mp3")
+                    pickup()
+                } else if (facing == "down") {
+                    setSound("/sounds/putdown.mp3")
+                    putDown()
+                }
+            }}>Play Sound
+            </button>
             <h2>
                 {result}
             </h2>
