@@ -17,7 +17,7 @@ export default function Homepage() {
     const [beta, setBeta] = useState<any>()
     const [gamma, setGamma] = useState<any>()
     const [alpha, setAlpha] = useState<any>()
-    const [facing, setFacing] = useState<string>()
+    const [facing, setFacing] = useState<string>("down")
 
     useEffect(() => {
         if (facing == "up") {
