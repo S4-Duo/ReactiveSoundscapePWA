@@ -7,7 +7,6 @@ export default function Homepage(){
     const soundManager = new SoundManager()
     const motionManager = new MotionManager()
 
-    const [result, setResult] = useState<any>()
     const [beta, setBeta] = useState<any>()
     const [gamma, setGamma] = useState<any>()
     const [alpha, setAlpha] = useState<any>()
@@ -45,33 +44,16 @@ export default function Homepage(){
         }
     })
 
-    /**
-     * Ask for permission to the user
-     */
-    function askPermission() {
-        DeviceOrientationEvent.requestPermission().then(function(result) {
-            return setResult(result);
-        });
-        if (typeof DeviceOrientationEvent !== 'function') {
-            return setResult('DeviceOrientationEvent not detected')
-        }
-        if (typeof DeviceOrientationEvent.requestPermission !== 'function') {
-            return setResult('DeviceOrientationEvent.requestPermission not detected')
-        }
-    }
+
+
     return (
         <div>
             <h2>{beta}</h2>
             <h2>{gamma}</h2>
             <h2>{alpha}</h2>
             <h2>{facing}</h2>
-            <button onClick={askPermission}>Grant Permission</button>
+            <button onClick={motionManager.askPermission}>Grant Permission</button>
             <button onClick={() => {soundManager.playSound("pickup")}}>Play Sound</button>
-
-            <h2>
-                {result}
-            </h2>
-
         </div>
     );
 }
