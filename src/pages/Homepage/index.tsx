@@ -2,10 +2,14 @@ import React, {useEffect, useState} from "react";
 import {SoundManager} from "@/Models/SoundManager";
 import {Sounds} from "@/Enums/Sounds";
 import {MotionManager} from "@/Models/MotionManager";
+import useSound from "use-sound";
 
 export default function Homepage(){
     const soundManager = new SoundManager()
     const motionManager = new MotionManager()
+    const [sound, setSound] = useState<string | undefined>()
+    const [pickup] = useSound("/sounds/pickup.mp3");
+    const [putDown] = useSound("/sounds/putdown.mp3");
 
     const [result, setResult] = useState<any>()
     const [beta, setBeta] = useState<any>()
@@ -13,30 +17,46 @@ export default function Homepage(){
     const [alpha, setAlpha] = useState<any>()
     const [facing, setFacing] = useState<string>()
 
-
-    useEffect(() => {
-        if (facing == "up"){
-            console.log("value changed to up")
-            soundManager.playSound("pickup")
-        }else if (facing == "down") {
-            console.log("value changed to down")
-            soundManager.playSound("putdown")
-        }
-    }, [facing])
-
     useEffect(() => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         window.addEventListener("deviceorientation", handleMotionEvent);
+                        if (facing == "up"){
+                            console.log("value changed to up")
+                            setSound("/sounds/putdown.mp3")
+                            pickup()
+                        }else if (facing == "down") {
+                            console.log("value changed to down")
+                            setSound("/sounds/putdown.mp3")
+                            putDown()
+                        }
                     }else {
                         window.addEventListener("deviceorientation", handleMotionEvent);
+                        if (facing == "up"){
+                            console.log("value changed to up")
+                            setSound("/sounds/putdown.mp3")
+                            pickup()
+                        }else if (facing == "down") {
+                            console.log("value changed to down")
+                            setSound("/sounds/putdown.mp3")
+                            putDown()
+                        }
                     }
                 })
                 .catch(console.error);
         } else {
             window.addEventListener("deviceorientation", handleMotionEvent);
+            if (facing == "up"){
+                console.log("value changed to up")
+                setSound("/sounds/putdown.mp3")
+                pickup()
+            }else if (facing == "down") {
+                console.log("value changed to down")
+                setSound("/sounds/putdown.mp3")
+                putDown()
+            }
         }
     })
 
