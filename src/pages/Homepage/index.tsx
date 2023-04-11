@@ -31,6 +31,17 @@ export default function Homepage() {
         }
     }, [facing])
 
+    useEffect(() => {
+        window.addEventListener('mousedown', (event) => {
+            if (facing == "up"){
+                setSound("/sounds/putdown.mp3")
+                pickup()
+            }else if (facing == "down") {
+                setSound("/sounds/putdown.mp3")
+                putDown()
+            }
+        });
+    })
 
     useEffect(() => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -77,17 +88,6 @@ export default function Homepage() {
             <h2>{alpha}</h2>
             <h2>{facing}</h2>
             <button onClick={askPermission}>Grant Permission</button>
-            <button onClick={() => {
-                if (facing == "up"){
-                    setSound("/sounds/putdown.mp3")
-                    pickup()
-                }else if (facing == "down") {
-                    setSound("/sounds/putdown.mp3")
-                    putDown()
-                }
-            }}>Play Sound
-            </button>
-
             <h2>
                 {result}
             </h2>
