@@ -3,8 +3,10 @@ import {SoundManager} from "@/Models/SoundManager";
 import {Sounds} from "@/Enums/Sounds";
 import {MotionManager} from "@/Models/MotionManager";
 import useSound from "use-sound";
+import {func} from "prop-types";
+import {pick} from "next/dist/lib/pick";
 
-export default function Homepage(){
+export default function Homepage() {
     const soundManager = new SoundManager()
     const motionManager = new MotionManager()
     const [sound, setSound] = useState<string | undefined>()
@@ -18,45 +20,31 @@ export default function Homepage(){
     const [facing, setFacing] = useState<string>()
 
     useEffect(() => {
+        if (facing == "up"){
+            console.log("value changed to up")
+            setSound("/sounds/putdown.mp3")
+            pickup()
+        }else if (facing == "down") {
+            console.log("value changed to down")
+            setSound("/sounds/putdown.mp3")
+            putDown()
+        }
+    }, [facing])
+
+
+    useEffect(() => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         window.addEventListener("deviceorientation", handleMotionEvent);
-                        if (facing == "up"){
-                            console.log("value changed to up")
-                            setSound("/sounds/putdown.mp3")
-                            pickup()
-                        }else if (facing == "down") {
-                            console.log("value changed to down")
-                            setSound("/sounds/putdown.mp3")
-                            putDown()
-                        }
                     }else {
                         window.addEventListener("deviceorientation", handleMotionEvent);
-                        if (facing == "up"){
-                            console.log("value changed to up")
-                            setSound("/sounds/putdown.mp3")
-                            pickup()
-                        }else if (facing == "down") {
-                            console.log("value changed to down")
-                            setSound("/sounds/putdown.mp3")
-                            putDown()
-                        }
                     }
                 })
                 .catch(console.error);
         } else {
             window.addEventListener("deviceorientation", handleMotionEvent);
-            if (facing == "up"){
-                console.log("value changed to up")
-                setSound("/sounds/putdown.mp3")
-                pickup()
-            }else if (facing == "down") {
-                console.log("value changed to down")
-                setSound("/sounds/putdown.mp3")
-                putDown()
-            }
         }
     })
 
@@ -71,7 +59,7 @@ export default function Homepage(){
      * Ask for permission to the user
      */
     function askPermission() {
-        DeviceOrientationEvent.requestPermission().then(function(result) {
+        DeviceOrientationEvent.requestPermission().then(function (result) {
             return setResult(result);
         });
         if (typeof DeviceOrientationEvent !== 'function') {
@@ -81,6 +69,7 @@ export default function Homepage(){
             return setResult('DeviceOrientationEvent.requestPermission not detected')
         }
     }
+
     return (
         <div>
             <h2>{beta}</h2>
@@ -88,7 +77,16 @@ export default function Homepage(){
             <h2>{alpha}</h2>
             <h2>{facing}</h2>
             <button onClick={askPermission}>Grant Permission</button>
-            <button onClick={() => {soundManager.playSound("pickup")}}>Play Sound</button>
+            <button onClick={() => {
+                if (facing == "up"){
+                    setSound("/sounds/putdown.mp3")
+                    pickup()
+                }else if (facing == "down") {
+                    setSound("/sounds/putdown.mp3")
+                    putDown()
+                }
+            }}>Play Sound
+            </button>
 
             <h2>
                 {result}
