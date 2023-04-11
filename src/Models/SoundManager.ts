@@ -1,6 +1,6 @@
-
 export class SoundManager{
     private pathToSoundsFolder = "/sounds/"
+
     /**
      * Play sound
      * @param sound
